@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Price Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-image: url("{% static 'carPrice/fer.jpg' %}");
+        background-size: cover; /* Ensures the image covers the entire background */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-position: center center; /* Centers the image */
+      }
+
+      .card {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.5
+        ); /* 50% opacity white background */
+        border-radius: 10px; /* Rounds the corners */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Adds a slight shadow for depth */
+        border: none; /* Removes any default border */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand mx-auto" href="#">Car Price Predictor</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card">
+              <div class="card-header text-center">
+                <h3>Enter Car Details</h3>
+              </div>
+              <div class="card-body">
+                <form method="post" novalidate>
+                  {% csrf_token %}
+
+                  <!-- Car Name Dropdown -->
+                  <div class="form-group">
+                    <label for="car_name">Car Name</label>
+                    <select class="form-control" id="car_name" name="car_name">
+                      {% for value, name in form.car_name.field.choices %}
+                      <option value="{{ value }}">{{ name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <!-- Present Price -->
+                  <div class="form-group">
+                    <label for="present_price">Present Price (in lakhs)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="present_price"
+                      name="present_price"
+                      placeholder="Enter present price"
+                      step="any"
+                    />
+                  </div>
+
+                  <!-- Year -->
+                  <div class="form-group">
+                    <label for="year">Year of Purchase</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="year"
+                      name="year"
+                      placeholder="Enter year of purchase"
+                    />
+                  </div>
+
+                  <!-- Kilometers Driven -->
+                  <div class="form-group">
+                    <label for="kms_driven">Kilometers Driven</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="kms_driven"
+                      name="kms_driven"
+                      placeholder="Enter kilometers driven"
+                    />
+                  </div>
+
+                  <!-- Fuel Type -->
+                  <div class="form-group">
+                    <label for="fuel_type">Fuel Type</label>
+                    <select
+                      class="form-control"
+                      id="fuel_type"
+                      name="fuel_type"
+                    >
+                      <option value="Petrol">Petrol</option>
+                      <option value="Diesel">Diesel</option>
+                    </select>
+                  </div>
+
+                  <!-- Seller Type -->
+                  <div class="form-group">
+                    <label for="seller_type">Seller Type</label>
+                    <select
+                      class="form-control"
+                      id="seller_type"
+                      name="seller_type"
+                    >
+                      <option value="Dealer">Dealer</option>
+                      <option value="Individual">Individual</option>
+                    </select>
+                  </div>
+
+                  <!-- Transmission -->
+                  <div class="form-group">
+                    <label for="transmission">Transmission</label>
+                    <select
+                      class="form-control"
+                      id="transmission"
+                      name="transmission"
+                    >
+                      <option value="Manual">Manual</option>
+                      <option value="Automatic">Automatic</option>
+                    </select>
+                  </div>
+
+                  <!-- Owner -->
+                  <div class="form-group">
+                    <label for="owner">Owner</label>
+                    <select class="form-control" id="owner" name="owner">
+                      <option value="0">First Owner</option>
+                      <option value="1">Second Owner</option>
+                      <option value="2">Third Owner</option>
+                      <option value="3">Fourth & Above Owner</option>
+                    </select>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Predict Price
+                  </button>
+                </form>
+
+                <!-- Display Prediction -->
+                {% if prediction %}
+                <div class="alert alert-success mt-4">
+                  <h4>Predicted Price: ₹{{ prediction }} Lakhs</h4>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
